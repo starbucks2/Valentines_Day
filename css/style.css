@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary-pink: #ff4d6d;
+    --secondary-pink: #ff8fa3;
+    --light-pink: #fff0f3;
+    --lavender: #c8b6ff;
+    --flower-red: #ff0000;
+    --flower-purple: #9b5de5;
+    --flower-blue: #00bbf9;
+    --flower-yellow: #fee440;
+    --white: #ffffff;
+    --dark-red: #c9184a;
+    --glow-color: rgba(255, 77, 109, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(-45deg, #ff8fa3, #ff4d6d, #c8b6ff, #fff0f3);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    padding: 2rem;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.main-content {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 3rem;
+    max-width: 800px;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+    margin-bottom: 4rem;
+}
+
+.main-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.message {
+    font-size: 1.2rem;
+    color: var(--white);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.music-btn {
+    text-decoration: none;
+    background: var(--primary-pink);
+    color: var(--white);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--glow-color);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.music-btn:hover {
+    transform: scale(1.05);
+    background: var(--dark-red);
+    box-shadow: 0 0 25px var(--glow-color);
+}
+
+/* Gallery Section */
+.gallery-section {
+    width: 100%;
+    max-width: 1200px;
+    z-index: 10;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: 350px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-item.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Floating Elements Styles */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    animation: fall linear forwards;
+}
+
+.heart-particle {
+    color: var(--primary-pink);
+}
+
+.flower-purple {
+    color: var(--flower-purple);
+}
+
+.flower-red {
+    color: var(--flower-red);
+}
+
+.flower-blue {
+    color: var(--flower-blue);
+}
+
+.flower-yellow {
+    color: var(--flower-yellow);
+}
+
+@keyframes fall {
+    from {
+        transform: translateY(-10vh) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(110vh) rotate(720deg) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .main-content {
+        padding: 2rem;
+        margin: 1rem;
+    }
+
+    .message {
+        font-size: 1rem;
+    }
+}
