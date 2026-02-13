@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentIndex = 0;
     let autoPlayInterval;
+    let isShowFinished = false;
 
     // Background Particles
     const hearts = ['❤️', '💖', '💕', '💗'];
@@ -57,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Memory Logic
     function showMemory(index) {
-        // Fade out current card if any
         const currentCard = galleryContainer.querySelector('.memory-card');
         if (currentCard) {
             currentCard.style.opacity = '0';
@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         setTimeout(() => {
-            // Remove existing memory cards but KEEP the title
             const cards = galleryContainer.querySelectorAll('.memory-card, .btn');
             cards.forEach(card => card.remove());
 
@@ -76,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'memory-card';
             card.style.display = 'block';
 
-            // Random entry rotation
             const entryRotate = (Math.random() - 0.5) * 10;
             card.style.transform = `rotate(${entryRotate}deg)`;
 
@@ -87,18 +85,33 @@ document.addEventListener('DOMContentLoaded', () => {
             galleryContainer.appendChild(card);
 
             if (index === shuffledMemories.length - 1) {
+                isShowFinished = true;
+                checkShowEnd();
+            }
+        }, 500);
+    }
+
+    function checkShowEnd() {
+        // Show back to home button only if slides are done AND song is done
+        if (isShowFinished && audio.ended) {
+            const currentBtn = galleryContainer.querySelector('.btn');
+            if (!currentBtn) {
                 const finishBtn = document.createElement('button');
                 finishBtn.className = 'btn';
                 finishBtn.style.marginTop = '20px';
                 finishBtn.innerText = 'Back to Home 🏠';
                 finishBtn.onclick = () => {
-                    clearInterval(autoPlayInterval);
                     window.location.href = 'index.html';
                 };
                 galleryContainer.appendChild(finishBtn);
             }
-        }, 500);
+        }
     }
+
+    // Monitor audio for completion
+    audio.addEventListener('ended', () => {
+        checkShowEnd();
+    });
 
     function nextMemory() {
         if (currentIndex < shuffledMemories.length - 1) {
@@ -111,10 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startBtn.addEventListener('click', () => {
         startOverlay.classList.add('hidden');
+        audio.loop = false; // Disable loop to detect 'ended' event
         audio.play().catch(e => console.log("Audio play blocked"));
         showMemory(0);
 
-        // Start Carousel Auto-Play: Transition every 4 seconds
         autoPlayInterval = setInterval(nextMemory, 4000);
     });
 });
